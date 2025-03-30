@@ -7,37 +7,32 @@ import { useGetBranchesList } from "@/api/branches";
 import BranchesTableRow from "../../employees-table-row";
 export default function BranchesListTab() {
   // State Management //////////////////////////////////////
-  const t = useTranslations("BRANCHES_MANAGEMENT_PAGE");
+  const t = useTranslations("USER_MANAGEMENT_PAGE");
   const { branches, branchesLoading } = useGetBranchesList();
   const HEAD_LABEL = [
     {
       id: "branchCode",
-      label: t("BRANCH_CODE"),
+      label: t("EMPLOYEE_IMG"),
       style: "text-center",
     },
     {
       id: "name",
-      label: t("BRANCH_NAME"),
+      label: t("EMPLOYEE_NAME"),
       style: "text-center",
     },
     {
       id: "distance",
-      label: t("BRANCH_DISTANCE"),
+      label: t("EMPLOYEE_CODE"),
       style: "text-center",
     },
     {
       id: "branchManager",
-      label: t("BRANCH_MANAGER"),
+      label: t("EMPLOYEE_CURRENT_BRANCH"),
       style: "text-center",
     },
     {
       id: "category",
-      label: t("OPENING_HOUR"),
-      style: " text-center",
-    },
-    {
-      id: "quantity",
-      label: t("CLOSING_HOUR"),
+      label: t("EMPLOYEE_PHONE"),
       style: " text-center",
     },
     {

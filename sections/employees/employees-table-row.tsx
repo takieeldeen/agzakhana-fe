@@ -91,17 +91,7 @@ export default function BranchesTableRow({ row }: TableRowProps) {
             )
           : "--"}
       </TableCell>
-      <TableCell className="text-center ">
-        {closingHourDate
-          ? new Date(closingHourDate)?.toLocaleTimeString(
-              locale === "ar" ? "ar-EG" : "en-US",
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-              }
-            )
-          : "--"}
-      </TableCell>
+
       <TableCell
         className={cn(
           "text-center font-semibold",
