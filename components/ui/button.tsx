@@ -57,11 +57,12 @@ function Button({
         data-slot="button"
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
+        disabled={props?.disabled || isLoading}
       >
         {isLoading && (
           <Icon
             icon="formkit:spinner"
-            className="animate-spin mr-2" // Add margin to separate spinner from text
+            className="animate-spin mx-2" // Add margin to separate spinner from text
           />
         )}
         {children}

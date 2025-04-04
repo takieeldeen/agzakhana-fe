@@ -6,16 +6,22 @@ import { Drawer, DrawerTrigger } from "@/components/ui/drawer";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useCallback, useState } from "react";
 
 const MemoizedStockNewEditForm = lazy(
   () => import("./employees-new-edit-form")
 );
 
 export default function Header() {
-  const { locale } = useParams();
   // State Management /////////////////////////////
+  const [showModal, setShowModal] = useState<boolean>(false);
+  // Custom Hooks /////////////////////////////
+  const { locale } = useParams();
   const t = useTranslations("USER_MANAGEMENT_PAGE");
+  // Callbacks /////////////////////////////
+  const handleClose = useCallback(() => {
+    setShowModal(false);
+  }, []);
   return (
     <div className="flex md:flex-row sm:flex-col justify-between md:rtl:pl-2">
       <div className="flex flex-col gap-0 mb-2">
@@ -24,7 +30,17 @@ export default function Header() {
           {t("PAGE_SUBTITLE")}
         </span>
       </div>
-      <Drawer direction={locale === "ar" ? "right" : "left"}>
+      <Drawer
+        direction={locale === "ar" ? "right" : "left"}
+        open={showModal}
+        onOpenChange={(open) => {
+          setShowModal(open);
+        }}
+        onClose={() => {
+          setShowModal(false);
+        }}
+        dismissible={false}
+      >
         <DrawerTrigger asChild>
           <Button className="font-bold dark:bg-button-background dark:text-white hover:dark:bg-button-background-hover hover:dark:text-button-color-hover cursor-pointer transition-all transition-300">
             <Icon icon="mage:box-3d-plus" />
@@ -32,7 +48,7 @@ export default function Header() {
           </Button>
         </DrawerTrigger>
         <Suspense fallback={<p>Loading...</p>}>
-          <MemoizedStockNewEditForm />
+          <MemoizedStockNewEditForm onClose={handleClose} />
         </Suspense>
       </Drawer>
     </div>

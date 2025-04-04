@@ -20,7 +20,7 @@ export default function RHFRadioButton({
   const { register, watch } = useFormContext();
   const values = watch();
   return (
-    <div className="group">
+    <div className="group w-full">
       <label htmlFor={`${name}-${value}` as any}>
         <div
           className={cn(

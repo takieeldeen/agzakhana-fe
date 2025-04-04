@@ -13,7 +13,6 @@ export type URLType = string | [string, AxiosRequestConfig] | null;
 export const getFetcher =
   <T>(URL: URLType) =>
   async (): Promise<T | undefined> => {
-    console.log(URL);
     if (!URL) return {} as T;
     const link = typeof URL === "string" ? URL : URL?.[0];
     const config = typeof URL === "string" ? undefined : URL?.[1] ?? undefined;

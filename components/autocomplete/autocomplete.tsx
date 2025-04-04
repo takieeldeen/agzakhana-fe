@@ -18,6 +18,7 @@ export interface AutocompleteProps<T> {
   allowFiltering?: boolean;
   api?: AutocompletePropsApi<T>;
   onAutoCompleteChange?: (value: T | null) => void;
+  placeholder?: string;
 }
 
 export default function Autocomplete<T>({
@@ -27,6 +28,7 @@ export default function Autocomplete<T>({
   allowFiltering = true,
   api,
   onAutoCompleteChange,
+  placeholder,
 }: AutocompleteProps<T>) {
   // State Management ////////////////////////////////////////
   const [filteredOptions, setFilteredOptions] = useState<T[]>(options);
@@ -230,6 +232,7 @@ export default function Autocomplete<T>({
               onFocus={() => setInputFocused(true)}
               ref={inputRef}
               onChange={handleInputChange}
+              placeholder={placeholder}
             />
             <Icon
               icon="material-symbols:close-rounded"

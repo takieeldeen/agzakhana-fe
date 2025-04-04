@@ -43,6 +43,7 @@ export const useGetPharmacyLocation = (url: string | undefined) => {
   const { data, error, isPending, isFetching } = useQuery({
     queryKey: ["branchLocation", url],
     queryFn: getFetcher<BranchLocation>(URL),
+    refetchOnWindowFocus: false,
   });
   return useMemo(
     () => ({
@@ -54,12 +55,3 @@ export const useGetPharmacyLocation = (url: string | undefined) => {
     [data?.location, error, isFetching, isPending]
   );
 };
-
-// export const getPharmacyLocation = async (url: string) => {
-//   const res = await axios.get(endpoints.branches.pharmacyLocation, {
-//     params: {
-//       url,
-//     },
-//   });
-//   return res?.data;
-// };

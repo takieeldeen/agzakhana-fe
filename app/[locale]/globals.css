@@ -72,6 +72,8 @@
   --color-danger-dark: #c0392b;
   /* Autocomplete Color */
   --color-autocomplete-options-dark-background: rgba(25, 34, 39, 1);
+  /* Placeholder */
+  --color-placeholder-dark: rgba(28, 43, 51, 1);
 }
 
 @media (prefers-color-scheme: light) {

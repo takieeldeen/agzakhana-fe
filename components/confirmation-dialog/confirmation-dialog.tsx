@@ -15,7 +15,7 @@ import {
 } from "./types";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
-
+import * as motion from "motion/react-client";
 interface ConfirmationDialogProps {
   children: ReactNode;
   open?: boolean;
@@ -47,7 +47,13 @@ function Confirmation({
   }, [open]);
   return (
     <ConfirmationDialogContext.Provider
-      value={{ opened, setOpened, openDialog, closeDialog, toggleDialog }}
+      value={{
+        opened: open ?? opened,
+        setOpened,
+        openDialog,
+        closeDialog,
+        toggleDialog,
+      }}
     >
       {children}
     </ConfirmationDialogContext.Provider>
@@ -146,7 +152,12 @@ function ConfirmationContent({ children, ...other }: ConfirmationContentProps) {
 
   if (!confirmationContext?.opened) return null;
   return createPortal(
-    <div className=" h-full w-full z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed p-2 flex items-center justify-center backdrop-blur-md animate-in ">
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
+      className=" h-full w-full z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed p-2 flex items-center justify-center backdrop-blur-md animate-in "
+    >
       <div
         {...other}
         className={cn("dark:bg-modal-dark p-2 rounded-md", other?.className)}
@@ -154,7 +165,7 @@ function ConfirmationContent({ children, ...other }: ConfirmationContentProps) {
       >
         {children}
       </div>
-    </div>,
+    </motion.div>,
     document.body
   );
 }

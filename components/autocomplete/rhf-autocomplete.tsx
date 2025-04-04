@@ -3,11 +3,15 @@ import Autocomplete, { AutocompleteProps } from "./autocomplete";
 export type RHFAutocompleteProps<T> = {
   name: string;
 } & AutocompleteProps<T>;
-export default function RHFAutocomplete<T>({ name }: RHFAutocompleteProps<T>) {
+export default function RHFAutocomplete<T>({
+  name,
+  ...props
+}: RHFAutocompleteProps<T>) {
   const methods = useFormContext();
   return (
     <Autocomplete
       onAutoCompleteChange={(value) => methods.setValue(name, value)}
+      {...props}
     />
   );
 }

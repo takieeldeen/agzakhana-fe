@@ -11,21 +11,31 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button } from "../ui/button";
 import { ConfirmationVariantType } from "./types";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ConfirmationDialogProvider {
   children: ReactNode;
 }
+
+type ConfirmationActionsType = {
+  firstAction?: VoidFunction | null;
+  secondAction?: VoidFunction | null;
+};
 const ConfirmationContext = createContext<
   { openDialog: Function; closeDialog: Function } | undefined
 >(undefined);
+
 export default function ConfirmationDialogProvider({
   children,
 }: ConfirmationDialogProvider) {
+  // Custom Hooks /////////////////////////
+  const t = useTranslations();
   // State Management /////////////////////////
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [subtitle, setSubtitle] = useState<string | undefined>(undefined);
   const [variant, setVariant] = useState<ConfirmationVariantType>("CONFIRM");
+  const [action, setAction] = useState<ConfirmationActionsType>({});
   // Helper Constants /////////////////////////
   const variants: {
     [key in ConfirmationVariantType]: { icon: string; colors: any };
@@ -67,16 +77,17 @@ export default function ConfirmationDialogProvider({
     (
       title?: string,
       subtitle?: string,
-      variant: ConfirmationVariantType = "CONFIRM"
+      variant: ConfirmationVariantType = "CONFIRM",
+      action?: VoidFunction
     ) => {
       if (title) setTitle(title);
       if (subtitle) setSubtitle(subtitle);
+      if (action) setAction((prev) => ({ ...prev, firstAction: action }));
       setVariant(variant);
       setShowConfirmation(true);
     },
     []
   );
-
   return (
     <ConfirmationContext.Provider
       value={{
@@ -128,13 +139,17 @@ export default function ConfirmationDialogProvider({
                 "w-full   hover:brightness-125  transition-all transition-300 cursor-pointer font-bold",
                 variants?.[variant]?.colors?.button
               )}
+              onClick={() => {
+                if (action?.firstAction) action.firstAction();
+                handleCloseConfirmation();
+              }}
             >
-              تأكيد
+              {t("COMMON.CONFIRM")}
             </Button>
             {/* <Confirmation. */}
             <Confirmation.Close>
               <Button className="w-full dark:bg-button-background dark:text-white hover:dark:brightness-120  transition-all transition-300 cursor-pointer font-bold">
-                إلغاء
+                {t("COMMON.CANCEL")}
               </Button>
             </Confirmation.Close>
           </div>
@@ -150,9 +165,10 @@ export function useConfirmDialog() {
     (
       title?: string,
       subtitle?: string,
-      variant: ConfirmationVariantType = "CONFIRM"
+      variant: ConfirmationVariantType = "CONFIRM",
+      action?: VoidFunction
     ) => {
-      confirmContext?.openDialog(title, subtitle, variant);
+      confirmContext?.openDialog(title, subtitle, variant, action);
     },
     [confirmContext]
   );

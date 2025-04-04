@@ -1,5 +1,5 @@
 export type APIResposne<T> = {
   status: "success" | "fail";
-  content: T;
+  content: T[];
   results: number;
 };

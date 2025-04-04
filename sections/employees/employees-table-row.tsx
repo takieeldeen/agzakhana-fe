@@ -1,4 +1,5 @@
 "use client";
+import { useDeleteEmployee } from "@/api/employees";
 import { useConfirmDialog } from "@/components/confirmation-dialog/confirmation-dialog-provider";
 import {
   Popover,
@@ -8,55 +9,44 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { BranchType } from "@/types/branches";
-import { BRANCH_STATUS } from "@/utilis/CONSTANTS";
-import { formatDistances } from "@/utilis/numbers";
+import { Employee } from "@/types/employees";
+import { USER_STATUS } from "@/utilis/CONSTANTS";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import Image from "next/image";
 import { useCallback } from "react";
 
 interface TableRowProps {
-  row: BranchType;
+  row: Employee;
 }
 
-export default function BranchesTableRow({ row }: TableRowProps) {
+export default function EmployeeTableRow({ row }: TableRowProps) {
   //   Custom Hooks //////////////////////////
-  const { locale } = useParams();
-  const t = useTranslations("BRANCHES_MANAGEMENT_PAGE");
+  const t = useTranslations("USER_MANAGEMENT_PAGE");
   const { confirmDialog } = useConfirmDialog();
-  const openingHourDate = row?.openingHour
-    ? `3/15/2025, ${row?.openingHour?.split(" ")?.[0]}:00 ${
-        row?.openingHour?.split(" ")?.[1]
-      }`
-    : undefined;
-  const closingHourDate = row?.closingHour
-    ? `3/15/2025, ${row?.closingHour?.split(" ")?.[0]}:00 ${
-        row?.closingHour?.split(" ")?.[1]
-      }`
-    : undefined;
-  console.log(closingHourDate);
+  const { deleteEmployee } = useDeleteEmployee();
   //   Helper Constants /////////////////////
   //   Callbacks /////////////////////
   const handleDeleteProduct = useCallback(() => {
     confirmDialog(
-      "تأكيد الحذف",
-      "هل أنت متأكد انك تريد حذف جميع الكمية , في حالة حذف الكمية لن يمكن استرجاعها مرة اخرى.",
-      "ALERT"
+      t("DELETE_CONFIRMATION_TITLE"),
+      t("DELETE_CONFIRMATION_SUBTITLE"),
+      "ALERT",
+      () => deleteEmployee(row?._id)
     );
-  }, [confirmDialog]);
+  }, [confirmDialog, deleteEmployee, row?._id, t]);
   return (
     <TableRow
-      key={row?.id}
+      key={row?._id}
       className=" text-base dark:bg-table-row-bg dark:border-b-7 dark:border-[rgb(20,28,31)] dark:border-t-7 h-24"
     >
-      {/* <TableCell className="">
-        <div className="flex items-center justify-center">
+      <TableCell className="">
+        <div className="flex items-center justify-center rounded-full overflow-hidden">
           {row?.imageUrl && (
             <Image
               src={row?.imageUrl}
-              alt={row?.nameEn}
-              className="h-12 w-auto"
+              alt={row?.name}
+              className="h-12 w-auto rounded-full"
               height="128"
               width="128"
               loading="lazy"
@@ -69,39 +59,28 @@ export default function BranchesTableRow({ row }: TableRowProps) {
             />
           )}
         </div>
-      </TableCell> */}
-      <TableCell className="font-medium max-w-64  truncate text-center">
-        {row?.branchCode}
       </TableCell>
       <TableCell className="font-medium max-w-64  truncate text-center">
         {row?.name}
       </TableCell>
+      <TableCell className="font-medium max-w-64  truncate text-center">
+        {row?._id?.substring(20)}
+      </TableCell>
       <TableCell className="font-medium  text-center">
-        {formatDistances(row?.distance, locale as "ar" | "en")}
+        {row?.currentBranch ?? "--"}
       </TableCell>
-      <TableCell className="text-center ">{row?.managerName}</TableCell>
-      <TableCell className="text-center">
-        {openingHourDate
-          ? new Date(openingHourDate)?.toLocaleTimeString(
-              locale === "ar" ? "ar-EG" : "en-US",
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-              }
-            )
-          : "--"}
-      </TableCell>
+      <TableCell className="text-center ">{row?.phone}</TableCell>
 
       <TableCell
         className={cn(
-          "text-center font-semibold",
-          BRANCH_STATUS?.[row?.status]?.style
+          "text-center font-semibold"
+          // USER_STATUS?.[row?.status]?.style
         )}
       >
         <div className="flex items-center gap-1.5 justify-center ">
           <div
             className={cn(
-              BRANCH_STATUS?.[row?.status]?.background,
+              USER_STATUS?.[row?.status]?.background,
               "w-3 h-3 rounded-[50%]"
             )}
           >

@@ -3,46 +3,48 @@ import TableHeadCustom from "@/components/table/table-head-custom";
 import { Table, TableBody } from "@/components/ui/table";
 import { useTranslations } from "next-intl";
 import TableToolbar from "../../employees-table-toolbar";
-import { useGetBranchesList } from "@/api/branches";
-import BranchesTableRow from "../../employees-table-row";
+import EmployeeTableRow from "../../employees-table-row";
+import { useGetEmployees } from "@/api/employees";
+import { Icon } from "@iconify/react/dist/iconify.js";
 export default function BranchesListTab() {
   // State Management //////////////////////////////////////
-  const t = useTranslations("USER_MANAGEMENT_PAGE");
-  const { branches, branchesLoading } = useGetBranchesList();
+  const t = useTranslations();
+  const { employees, employeesLoading, employeesValidating } =
+    useGetEmployees();
   const HEAD_LABEL = [
     {
       id: "branchCode",
-      label: t("EMPLOYEE_IMG"),
+      label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_IMG"),
       style: "text-center",
     },
     {
       id: "name",
-      label: t("EMPLOYEE_NAME"),
+      label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_NAME"),
       style: "text-center",
     },
     {
       id: "distance",
-      label: t("EMPLOYEE_CODE"),
+      label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_CODE"),
       style: "text-center",
     },
     {
       id: "branchManager",
-      label: t("EMPLOYEE_CURRENT_BRANCH"),
+      label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_CURRENT_BRANCH"),
       style: "text-center",
     },
     {
       id: "category",
-      label: t("EMPLOYEE_PHONE"),
+      label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_PHONE"),
       style: " text-center",
     },
     {
       id: "status",
-      label: t("STATUS"),
+      label: t("USER_MANAGEMENT_PAGE.STATUS"),
       style: " text-center",
     },
     {
       id: "action",
-      label: t("ACTION"),
+      label: t("USER_MANAGEMENT_PAGE.ACTION"),
       style: " text-center",
     },
   ];
@@ -51,15 +53,26 @@ export default function BranchesListTab() {
   return (
     <div className="flex flex-row w-full gap-3.5 h-full">
       <div className="w-3/4 h-full overflow-y-scroll rtl:pl-2">
+        {employeesValidating && (
+          <p className="flex flex-row items-center gap-2">
+            <Icon
+              icon="ei:spinner-3"
+              className="text-xl text-neon animate-spin"
+            />
+            <span className="mb-2 font-semibold text-base text-gray-300">
+              {t("COMMON.REVALIDATING")}
+            </span>
+          </p>
+        )}
         <Table className="rounded-lg">
           <TableHeadCustom
             tableHeadDetails={HEAD_LABEL}
             className=""
-            loading={branchesLoading}
+            loading={employeesLoading}
           />
-          <TableBody loading={branchesLoading} columns={HEAD_LABEL?.length}>
-            {branches?.map((branch) => (
-              <BranchesTableRow row={branch} key={branch?.id} />
+          <TableBody loading={employeesLoading} columns={HEAD_LABEL?.length}>
+            {employees?.map((employee) => (
+              <EmployeeTableRow row={employee} key={employee?._id} />
             ))}
           </TableBody>
         </Table>

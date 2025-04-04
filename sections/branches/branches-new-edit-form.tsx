@@ -114,11 +114,6 @@ export default function NewEditForm() {
                   }
                   onChange={(e) => {
                     const val = e?.target?.value ?? "";
-                    // const res = await getPharmacyLocation(val);
-                    // console.log(res);
-                    // setValue("lng", res?.lng);
-                    // setValue("lat", res?.lat);
-                    // setValue("address", res?.address);
                     setValue("googleLink", val);
                   }}
                 />
