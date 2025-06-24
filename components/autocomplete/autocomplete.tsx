@@ -60,7 +60,7 @@ export default function Autocomplete<T>({
     if (inputRef) inputRef?.current?.focus();
   }, []);
   const handleAutocompleteBlur = useCallback(() => {
-    setInputValue(getOptionLabel(value));
+    setInputValue(value ? getOptionLabel(value) : "");
   }, [getOptionLabel, value]);
   const filterOptions = useCallback(
     (currentValue: string) => {
@@ -234,13 +234,15 @@ export default function Autocomplete<T>({
               onChange={handleInputChange}
               placeholder={placeholder}
             />
-            <Icon
-              icon="material-symbols:close-rounded"
-              className={cn(
-                "bg-inherit p-0 m-0 cursor-pointer  transition-all  rounded-[50%] aspect-square w-5 h-5 hidden group-hover:flex items-center justify-center hover:bg-gray-700/30"
-              )}
-              onClick={() => handleChange(null)}
-            />
+            {value && (
+              <Icon
+                icon="material-symbols:close-rounded"
+                className={cn(
+                  "bg-inherit p-0 m-0 cursor-pointer  transition-all  rounded-[50%] aspect-square w-5 h-5 hidden group-hover:flex items-center justify-center hover:bg-gray-700/30"
+                )}
+                onClick={() => handleChange(null)}
+              />
+            )}
             <Icon
               icon={"line-md:chevron-down"}
               className={cn(

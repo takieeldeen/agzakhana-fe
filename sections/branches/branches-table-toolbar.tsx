@@ -14,9 +14,7 @@ export default function TableToolbar() {
   // const tCommon = useTranslations("COMMON");
   const { locale } = useParams();
   const methods = useForm();
-  const onSubmit = async (data: any) => {
-    console.log(data);
-  };
+  const onSubmit = async (data: any) => {};
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>

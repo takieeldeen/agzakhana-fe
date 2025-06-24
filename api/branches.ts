@@ -1,8 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import endpoints from "./endpoints";
-import { getDummyFetcher, getFetcher, URLType } from "./axios";
+import axios, { getFetcher, URLType } from "./axios";
 import { useMemo } from "react";
-import { BRANCHES_LIST_DATA } from "@/mock/_branches";
 import { APIResposne } from "@/types/api";
 import { BranchLocation, BranchType } from "@/types/branches";
 
@@ -10,11 +9,7 @@ export const useGetBranchesList = () => {
   const URL = endpoints.branches.list;
   const { data, error, isPending, isFetching } = useQuery({
     queryKey: ["branches"],
-    // queryFn: getFetcher<dummy>(URL),
-    queryFn: getDummyFetcher<APIResposne<BranchType[]>>(
-      URL,
-      BRANCHES_LIST_DATA
-    ),
+    queryFn: getFetcher<APIResposne<BranchType>>(URL),
   });
   return useMemo(
     () => ({
@@ -26,6 +21,32 @@ export const useGetBranchesList = () => {
     }),
     [data?.content, data?.results, error, isFetching, isPending]
   );
+};
+
+export const createBranchFn = async (data: any) => {
+  const URL = endpoints.branches.create;
+  const modifiedData = { ...data };
+  modifiedData.openingHour = modifiedData?.openingHour?.toISOString();
+  modifiedData.closingHour = modifiedData?.closingHour?.toISOString();
+  await axios.post(URL, modifiedData);
+};
+export const deleteBranchFn = async (data: any) => {
+  const URL = endpoints.branches.delete(data?._id);
+  await axios.delete(URL);
+};
+
+export const useMutateBranches = () => {
+  const queryClient = useQueryClient();
+  // Create Branch
+  const { mutateAsync: createBranch } = useMutation({
+    mutationFn: createBranchFn,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["branches"] }),
+  });
+  const { mutateAsync: deleteBranch } = useMutation({
+    mutationFn: deleteBranchFn,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["branches"] }),
+  });
+  return { createBranch, deleteBranch };
 };
 
 export const useGetPharmacyLocation = (url: string | undefined) => {

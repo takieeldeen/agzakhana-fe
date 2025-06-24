@@ -6,4 +6,10 @@ export type Employee = {
   currentBranch?: string;
   phone: string;
   status: "ACTIVE" | "INACTIVE" | "OFFLINE" | "INVITED";
+  jobTitle:
+    | "PHARMACIST"
+    | "PHARMACY_TECHNICIAN"
+    | "PHARMACY_INTERN"
+    | "PHARMACY_ASSISTANT"
+    | "PHARMACY_MANAGER";
 };

@@ -3,9 +3,10 @@ import { AuthState } from "./slice";
 
 export const login = (state: AuthState, action: Action) => {
   state.user = action.payload;
-  console.log(state);
+  state.isAuthenticated = true;
 };
 
 export const logout = (state: AuthState) => {
-  state.user = undefined;
+  state.user = null;
+  state.isAuthenticated = false;
 };

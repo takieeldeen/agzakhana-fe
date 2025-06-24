@@ -13,9 +13,7 @@ export default function TableToolbar() {
   const t = useTranslations("STOCK_MANAGMENT_PAGE");
   const { locale } = useParams();
   const methods = useForm();
-  const onSubmit = async (data: any) => {
-    console.log(data);
-  };
+  const onSubmit = async (data: any) => {};
 
   return (
     <Form methods={methods} onSubmit={onSubmit}>

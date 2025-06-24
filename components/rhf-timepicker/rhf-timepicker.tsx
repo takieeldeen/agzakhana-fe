@@ -12,10 +12,11 @@ export default function RHFTimepicker({ name }: RHFTimepickerProps) {
     <Controller
       control={methods.control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TimePicker
           onChange={(value) => field.onChange(value)}
           value={field.value}
+          error={error}
         />
       )}
     />

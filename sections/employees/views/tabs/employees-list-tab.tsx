@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import TableHeadCustom from "@/components/table/table-head-custom";
 import { Table, TableBody } from "@/components/ui/table";
 import { useTranslations } from "next-intl";
@@ -6,11 +6,23 @@ import TableToolbar from "../../employees-table-toolbar";
 import EmployeeTableRow from "../../employees-table-row";
 import { useGetEmployees } from "@/api/employees";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { cn } from "@/lib/utils";
+import TableProvider from "@/components/table-provider/table-provider";
+import { useTable } from "@/hooks/use-table";
+import TablePagination from "@/components/table-pagination/table-pagination";
 export default function BranchesListTab() {
   // State Management //////////////////////////////////////
   const t = useTranslations();
-  const { employees, employeesLoading, employeesValidating } =
-    useGetEmployees();
+
+  const tableProps = useTable({
+    defaultRowsPerPage: 9,
+    defaultFilters: {
+      status: "",
+      name: "",
+      sort: "",
+      jobTitle: "",
+    },
+  });
   const HEAD_LABEL = [
     {
       id: "branchCode",
@@ -20,6 +32,11 @@ export default function BranchesListTab() {
     {
       id: "name",
       label: t("USER_MANAGEMENT_PAGE.EMPLOYEE_NAME"),
+      style: "text-center",
+    },
+    {
+      id: "jobTitle",
+      label: t("USER_MANAGEMENT_PAGE.POSITION"),
       style: "text-center",
     },
     {
@@ -48,38 +65,66 @@ export default function BranchesListTab() {
       style: " text-center",
     },
   ];
+  // Data Fetching Hooks //////////////////////////////////
+  const {
+    employees,
+    employeesLoading,
+    employeesValidating,
+    totalNumberOfRows,
+  } = useGetEmployees(
+    tableProps.page,
+    tableProps.rowsPerPage,
+    tableProps.filters
+  );
   // return <ListLoadingView />;
   // if (branchesLoading) return <LoadingView />;
   return (
-    <div className="flex flex-row w-full gap-3.5 h-full">
-      <div className="w-3/4 h-full overflow-y-scroll rtl:pl-2">
-        {employeesValidating && (
+    <TableProvider table={tableProps}>
+      <div className="flex flex-row w-full gap-3.5 h-full">
+        <div className="w-3/4 h-full overflow-y-scroll rtl:pl-2">
           <p className="flex flex-row items-center gap-2">
             <Icon
-              icon="ei:spinner-3"
-              className="text-xl text-neon animate-spin"
+              icon={
+                employeesValidating || employeesLoading
+                  ? "ei:spinner-3"
+                  : "bi:check-all"
+              }
+              className={cn(
+                "text-xl text-neon ",
+                employeesValidating ? "animate-spin" : ""
+              )}
             />
             <span className="mb-2 font-semibold text-base text-gray-300">
-              {t("COMMON.REVALIDATING")}
+              {employeesValidating || employeesLoading
+                ? t("COMMON.REVALIDATING")
+                : t("COMMON.UP_TO_DATE")}
             </span>
           </p>
-        )}
-        <Table className="rounded-lg">
-          <TableHeadCustom
-            tableHeadDetails={HEAD_LABEL}
-            className=""
-            loading={employeesLoading}
-          />
-          <TableBody loading={employeesLoading} columns={HEAD_LABEL?.length}>
-            {employees?.map((employee) => (
-              <EmployeeTableRow row={employee} key={employee?._id} />
-            ))}
-          </TableBody>
-        </Table>
+          <Table className="rounded-lg">
+            <TableHeadCustom
+              tableHeadDetails={HEAD_LABEL}
+              className=""
+              loading={employeesLoading}
+            />
+            <TableBody loading={employeesLoading} columns={HEAD_LABEL?.length}>
+              {employees?.map((employee) => (
+                <EmployeeTableRow row={employee} key={employee?._id} />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="w-1/4">
+          <TableToolbar totalCount={totalNumberOfRows} />
+        </div>
       </div>
-      <div className="w-1/4">
-        <TableToolbar />
-      </div>
-    </div>
+      {!employeesLoading && (
+        <TablePagination
+          totalNoOfRows={totalNumberOfRows ?? 0}
+          rowsPerPage={tableProps.rowsPerPage}
+          currentPage={tableProps.page}
+          onPageChange={(newPage: number) => tableProps.onPageChange(newPage)}
+        />
+      )}
+    </TableProvider>
   );
 }

@@ -160,7 +160,10 @@ function ConfirmationContent({ children, ...other }: ConfirmationContentProps) {
     >
       <div
         {...other}
-        className={cn("dark:bg-modal-dark p-2 rounded-md", other?.className)}
+        className={cn(
+          "dark:bg-modal-dark p-2 rounded-md min-w-96",
+          other?.className
+        )}
         ref={modalRef}
       >
         {children}

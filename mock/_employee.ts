@@ -1,0 +1,136 @@
+export const EMPLOYEE_DETAIL = {
+  name: "علاء عبدالعظيم",
+  jobTitle: "دكتور صيدلي",
+  phoneNumber: "01118063303",
+  emailAddress: "alaa@gmail.com",
+  totalAttendance: 309,
+  avgCheckInTime: "08:46",
+  avgCheckOutTime: "08:46",
+  currentBranch: "فرع الرفاعي",
+};
+
+export const EMPLOYEE_ATTENDANCE = {
+  results: 20,
+  content: [
+    {
+      id: "1",
+      checkInTime: "2025-04-20T08:30:00.000Z",
+      checkOutTime: "2025-04-20T16:30:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "2",
+      checkInTime: "2025-04-19T09:00:00.000Z",
+      checkOutTime: "2025-04-19T17:00:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "3",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "4",
+      checkInTime: "2025-04-18T08:45:00.000Z",
+      checkOutTime: "2025-04-18T16:45:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "5",
+      checkInTime: "2025-04-17T09:15:00.000Z",
+      checkOutTime: "2025-04-17T17:15:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "6",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "7",
+      checkInTime: "2025-04-16T08:30:00.000Z",
+      checkOutTime: "2025-04-16T16:30:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "8",
+      checkInTime: "2025-04-15T09:10:00.000Z",
+      checkOutTime: "2025-04-15T17:10:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "9",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "10",
+      checkInTime: "2025-04-14T08:50:00.000Z",
+      checkOutTime: "2025-04-14T16:50:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "11",
+      checkInTime: "2025-04-13T09:05:00.000Z",
+      checkOutTime: "2025-04-13T17:05:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "12",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "13",
+      checkInTime: "2025-04-12T08:40:00.000Z",
+      checkOutTime: "2025-04-12T16:40:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "14",
+      checkInTime: "2025-04-11T09:20:00.000Z",
+      checkOutTime: "2025-04-11T17:20:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "15",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "16",
+      checkInTime: "2025-04-10T08:35:00.000Z",
+      checkOutTime: "2025-04-10T16:35:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "17",
+      checkInTime: "2025-04-09T09:25:00.000Z",
+      checkOutTime: "2025-04-09T17:25:00.000Z",
+      status: "LATE",
+    },
+    {
+      id: "18",
+      checkInTime: null,
+      checkOutTime: null,
+      status: "ABSENT",
+    },
+    {
+      id: "19",
+      checkInTime: "2025-04-08T08:55:00.000Z",
+      checkOutTime: "2025-04-08T16:55:00.000Z",
+      status: "ON_TIME",
+    },
+    {
+      id: "20",
+      checkInTime: "2025-04-07T09:30:00.000Z",
+      checkOutTime: "2025-04-07T17:30:00.000Z",
+      status: "LATE",
+    },
+  ],
+};

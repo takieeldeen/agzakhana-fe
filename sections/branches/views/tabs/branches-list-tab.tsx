@@ -20,11 +20,7 @@ export default function BranchesListTab() {
       label: t("BRANCH_NAME"),
       style: "text-center",
     },
-    {
-      id: "distance",
-      label: t("BRANCH_DISTANCE"),
-      style: "text-center",
-    },
+
     {
       id: "branchManager",
       label: t("BRANCH_MANAGER"),
@@ -64,7 +60,7 @@ export default function BranchesListTab() {
           />
           <TableBody loading={branchesLoading} columns={HEAD_LABEL?.length}>
             {branches?.map((branch) => (
-              <BranchesTableRow row={branch} key={branch?.id} />
+              <BranchesTableRow row={branch} key={branch?._id} />
             ))}
           </TableBody>
         </Table>

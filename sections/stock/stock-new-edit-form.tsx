@@ -17,9 +17,7 @@ import { useForm } from "react-hook-form";
 export default function StockNewEditForm() {
   const methods = useForm();
   //   const t = useTranslations();
-  const onSubmit = async (data: any) => {
-    console.log(data);
-  };
+  const onSubmit = async (data: any) => {};
   return (
     <DrawerContent className="dark:bg-modal-dark-background">
       <Form methods={methods} onSubmit={onSubmit}>

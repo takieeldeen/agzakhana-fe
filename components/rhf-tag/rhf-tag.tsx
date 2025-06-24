@@ -25,7 +25,11 @@ export default function RHFTag({
         values?.[name] === value ? "border-white" : "",
         (other as any)?.className
       )}
-      onClick={() => setValue(name, value)}
+      onClick={(e) => {
+        e.preventDefault();
+        setValue(name, value, { shouldDirty: true, shouldValidate: true });
+      }}
+      type="button"
     >
       {children}
     </Button>

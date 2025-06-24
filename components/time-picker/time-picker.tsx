@@ -19,6 +19,7 @@ export default function TimePicker({
   label,
   labelProps,
   onChange,
+  error,
   ...other
 }: TimePickerProps) {
   // State Management //////////////////////////////
@@ -72,6 +73,7 @@ export default function TimePicker({
               "flex flex-row items-center border-input border rounded-md",
               "hover:border-[1px] hover:border-cyan-700",
               "focus-visible:border-[1px] focus-visible:border-cyan-900",
+              !!error && "border-[1px] border-[#e74c3c]",
               className
               // `${hasError ? "border-red-700 focus-visible:border-red-700" : ""}`
             )}
@@ -100,6 +102,17 @@ export default function TimePicker({
             )}
             {endElement}
           </div>
+          {!!error && (
+            <span
+              // {...inputProps?.helperText}
+              className={cn(
+                "text-sm font-semibold text-[#e74c3c] rtl:text-right ltr:text-left"
+                // inputProps?.helperText?.className
+              )}
+            >
+              {error?.message}
+            </span>
+          )}
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-fit  bg-modal-dark p-2">

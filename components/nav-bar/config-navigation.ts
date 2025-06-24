@@ -35,6 +35,16 @@ const useGetConfigNavigation = () => {
       icon: "ph:users-light",
       path: "employees",
     },
+    {
+      name: t("MEDICINES"),
+      icon: "cuida:medicine-outline",
+      path: "medicines",
+    },
+    {
+      name: t("MESSAGES"),
+      icon: "material-symbols:chat-outline",
+      path: "chat",
+    },
   ];
   return { configNavigation };
 };

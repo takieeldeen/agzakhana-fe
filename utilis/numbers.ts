@@ -10,3 +10,5 @@ export function formatDistances(
     : `${meters} ${locale === "ar" ? "م" : "m"}`;
   return distanceString;
 }
+
+export function validatePhoneNumber() {}

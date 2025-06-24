@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function NavItem({
@@ -16,6 +16,8 @@ export default function NavItem({
   const [collapsed] = useState<boolean>(true);
   //   Custom Hooks ////////////////////////////////////////////////
   const pathname = usePathname();
+  const { locale } = useParams();
+  console.log(locale);
   //   Helper Constants ////////////////////////////////////////////
   const isActive = pathname?.endsWith(path?.path);
   const hasChildren = !!path.children;
@@ -24,7 +26,7 @@ export default function NavItem({
   //   setCollapsed((prev) => !prev);
   // }, []);
   return (
-    <Link href={path?.path}>
+    <Link href={`/${locale}/portal/${path.path}`}>
       <li className="flex flex-col gap-2 items-start cursor-pointer transition-all select-none">
         {/* Main Item */}
         <div

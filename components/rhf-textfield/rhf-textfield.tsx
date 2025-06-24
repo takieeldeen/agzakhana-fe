@@ -58,13 +58,19 @@ export default function RHFTextfield({
           "flex flex-row items-center border-input border rounded-md",
           "hover:border-[1px] hover:border-cyan-700",
           "focus-visible:border-[1px] focus-visible:border-cyan-900",
-          `${hasError ? "border-red-700 focus-visible:border-red-700" : ""}`
+          `${hasError ? "border-[#e74c3c] focus-visible:border-[#e74c3c]" : ""}`
         )}
       >
         {startElement}
         <input
           type={type}
           data-slot="input"
+          onKeyDown={(e) => {
+            if (e.key === "e" && type === "number") {
+              e.preventDefault();
+              return;
+            }
+          }}
           className={cn(
             " file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0   bg-transparent px-3 py-1 text-base shadow-xs transition-all outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm ",
             //   "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
@@ -86,7 +92,7 @@ export default function RHFTextfield({
         <span
           {...inputProps?.helperText}
           className={cn(
-            "text-sm font-semibold text-red-600",
+            "text-sm font-semibold text-[#e74c3c]",
             inputProps?.helperText?.className
           )}
         >

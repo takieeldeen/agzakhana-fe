@@ -3,7 +3,25 @@
     "HOME": "Home",
     "STOCK": "Stock",
     "BRANCHES": "Branches",
-    "EMPLOYEES": "Employees"
+    "EMPLOYEES": "Employees",
+    "MEDICINES": "Medicines",
+    "MESSAGES": "Chats"
+  },
+  "SETTINGS": {
+    "SETTINGS": "Settings",
+    "SIGN_OUT": "Sign Out"
+  },
+  "LOGIN_PAGE": {
+    "PAGE_TITLE": "Login",
+    "PAGE_SUBTITLE": "Please enter your credentials to login",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN_BUTTON": "Login",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "INVALID_CREDENTIALS": "Incorrect email or password",
+    "REQUIRED_FIELD": "Please enter this field",
+    "SLOGAN_TITLE": "The Ultimate Multi-Branch Pharmacy Management System",
+    "SLOGAN_SUBTITLE": "Smart, efficient, and seamless control for all your pharmacy branches"
   },
   "STOCK_MANAGMENT_PAGE": {
     "PAGE_TITLE": "Stock Management",
@@ -31,7 +49,14 @@
     "SORT_BY": "Sort By",
     "ALL_CATEGORIES": "All Categories",
     "NO_SORT": "No Sorting",
-    "FORM_TRIGGER": "Add Product"
+    "FORM_TRIGGER": "Add Product",
+    "AVG_CHECK_IN": "Average Check-In Time",
+    "AVG_CHECK_OUT": "Average Check-Out Time",
+    "CHECK_IN_TIME": "Check-In Time",
+    "CHECK_OUT_TIME": "Check-Out Time",
+    "ON_TIME": "On Time",
+    "LATE": "Late",
+    "ABSCENT": "Absent"
   },
   "BRANCHES_MANAGEMENT_PAGE": {
     "PAGE_TITLE": "Branches Management",
@@ -73,6 +98,8 @@
       "GOOGLE_MAP_LINK": "Google Maps Link",
       "LAT": "Latitude",
       "LNG": "Longitude",
+      "PHONE": "Phone Number",
+
       "CITY": "City",
       "ADDRESS": "Address",
       "OPENING_HOUR": "Opening Hour",
@@ -107,6 +134,10 @@
     "DELETE_TITLE": "Delete Employee",
     "DELETE_CONFIRMATION_TITLE": "Delete Employee Confirmation",
     "DELETE_CONFIRMATION_SUBTITLE": "Are you sure you want to delete this employee? This action cannot be undone.",
+    "ACTIVATION_CONFIRMATION_TITLE": "Activate Employee Confirmation",
+    "ACTIVATION_CONFIRMATION_SUBTITLE": "Are you sure you want to activate this employee?",
+    "DEACTIVATION_CONFIRMATION_TITLE": "Deactivate Employee Confirmation",
+    "DEACTIVATION_CONFIRMATION_SUBTITLE": "Are you sure you want to deactivate this employee?",
     "DETAILS_TITLE": "Employee Details",
     "STAFF_TITLE": "Manage Employee Staff",
     "ACTIVATION_TITLE": "Disable Employee",
@@ -139,16 +170,93 @@
     "INVITED": "Invited",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "OFFLINE": "Offline"
+    "OFFLINE": "Offline",
+    "PHARMACIST": "Pharmacist",
+    "PHARMACY_TECHNICIAN": "Pharmacy Technician",
+    "PHARMACY_INTERN": "Pharmacy Intern",
+    "PHARMACY_ASSISTANT": "Pharmacy Assistant",
+    "PHARMACY_MANAGER": "Pharmacy Manager",
+    "POSITION": "Position",
+    "JOB": "Job"
   },
+  "MEDICINES_MANAGEMENT_PAGE": {
+    "PAGE_TITLE": "Medicines Management",
+    "PAGE_SUBTITLE": "Overview of all medicines in the system",
+    "ID": "Id",
+    "NAME": "Name",
+    "CATEGORY": "Category",
+    "DESCRIPTION": "Description",
+    "REQUIRE_PRESCRIPTION": "Require Prescription",
+    "IMAGE_URL": "Image",
+    "DOSAGE": "Dosage",
+    "PRESCRIPTION_true": "Yes",
+    "PRESCRIPTION_false": "No",
+    "DETAILS": "{{product}} details",
+    "MAIN_INFO": "Main Information",
+    "PRICE": "{price} EGP.",
+    "CURRENT_PRICE": "Current Price",
+    "MEDICINE_TYPE": "Medicine Type",
+    "SYRUP": "Syrup",
+    "TABLET": "Tablet",
+    "INJECTION": "Injection",
+    "CREAM": "Cream",
+    "POWDER": "Powder",
+    "GEL": "Gel",
+    "SPRAY": "Spray",
+    "SUPPOSITORY": "Suppository",
+    "PATCH": "Patch",
+    "LIQUID": "Liquid",
+    "DROPS": "Drops",
+    "INHALER": "Inhaler",
+    "FOAM": "Foam",
+    "INTERNAL_QTY": "Internal Quantity",
+    "INTERNAL_UNIT_PRICE": "Internal Unit Price",
+    "ADDITIONAL_INFO": "Additional Information",
+    "MEDICINE_DETAILS": "Medicine Details",
+    "MEDICINE_DETAILS_SUBTITLE": "Check all details related to the medicine.",
+    "ACTIVATE_MEDICINE": "Activate Medicine",
+    "ACTIVATE_MEDICINE_SUBTITLE": "This action will bring back this medicine from the system.",
+    "DEACTIVATE_MEDICINE": "Deactivate Medicine",
+    "DEACTIVATE_MEDICINE_SUBTITLE": "This action will hide this medicine from the system.",
+    "DELETE_MEDICINE": "Delete Medicine",
+    "DELETE_MEDICINE_SUBTITLE": "This action will remove this medicine from the system.",
+    "DELETE_CONFIRMATION_TITLE": "Confirm Medicine Deletion",
+    "DELETE_CONFIRMATION_SUBTITLE": "Are you sure you want to delete this medicine? You can deactivate it instead to hide it from the system.",
+    "DELTEE_MSG_TITLE": "Delete Confirmation",
+    "DELETE_MSG_SUBTITLE": "Are you sure you want to delete this medicine? This action cannot be undone.",
+    "ACTIVATION_MSG_TITLE": "Activate Medicine Confirmation",
+    "ACTIVATION_MSG_SUBTITLE": "Are you sure you want to activate this medicine?",
+
+    "DEACTIVATION_MSG_TITLE": "Deactivate Medicine Confirmation",
+    "DEACTIVATION_MSG_SUBTITLE": "Are you sure you want to deactivate this medicine?"
+  },
+
   "COMMON": {
+    "SIMILAR_PRODUCTS": "Similar Products",
+
     "NO_RESULTS": "No Results",
     "CANCEL": "Cancel",
     "REVALIDATING": "Updating Data",
-    "CONFIRM": "Confirm"
+    "UP_TO_DATE": "Data is up to date.",
+    "CONFIRM": "Confirm",
+    "SUCCESS_PROCESS": "Successful Process",
+    "FAIL_PROCESS": "Failed Process",
+    "FILTER": "Filter",
+    "REMOVE_FILTERS": "Remove Filters",
+    "SEARCH_BY_NAME": "Search By Name",
+    "UNSPECIFIED": "Unspecified"
   },
   "VALIDATIONS": {
     "REQUIRED": "Please fill this field",
-    "INVALID_EMAIL": "Invalid Email"
+    "INVALID_FIELD": "Invalid {field} format.",
+    "REQUIRED_FIELD": "Please enter {field}",
+    "POSITIVE_FIELD": "{field} must be a positive value.",
+    "DATE_EXCEEDED": "{firstField} can't be after {secondField}"
+  },
+  "NOTIFICATIONS": {
+    "SUCCESSFUL_PROCESS": "The process was completed successfully",
+    "FAILED_PROCESS": "The process failed",
+    "WARNING": "Warning",
+    "LOGGED_IN_SUCCESS": "Logged In Successfully"
   }
 }

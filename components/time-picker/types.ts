@@ -1,4 +1,5 @@
 import { ComponentProps, ReactNode } from "react";
+import { FieldError } from "react-hook-form";
 
 export type TimePickerProps = {
   value?: Date;
@@ -9,5 +10,6 @@ export type TimePickerProps = {
   className?: string;
   labelProps?: ComponentProps<"label">;
   label?: string;
+  error?: FieldError | undefined;
   onChange?: (date: Date) => void;
 } & ComponentProps<"input">;

@@ -1,5 +1,6 @@
 import { useGetPharmacyLocation } from "@/api/branches";
 import { useInviteEmployee } from "@/api/employees";
+import RHFAutocomplete from "@/components/autocomplete/rhf-autocomplete";
 import Form from "@/components/form-provider/form-provider";
 import RHFPhotoInput from "@/components/rhf-photo-input/rhf-photo-input";
 import RHFRadioButton from "@/components/rhf-radio/rhf-radio";
@@ -21,10 +22,12 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
+import { EMP_POSITIONS } from "./employees-constants";
 
 type NewEditFormProps = {
   onClose: VoidFunction;
 };
+
 export default function NewEditForm({ onClose }: NewEditFormProps) {
   const t = useTranslations();
   const { locale } = useParams();
@@ -34,7 +37,11 @@ export default function NewEditForm({ onClose }: NewEditFormProps) {
   const branchesFormSchema = Yup.object().shape({
     name: Yup.string().required(tValidation("REQUIRED")),
     email: Yup.string()
-      .email(tValidation("INVALID_EMAIL"))
+      .email(
+        tValidation("INVALID_FIELD", {
+          field: t("USER_MANAGEMENT_PAGE.FORM.EMPLOYEE_EMAIL"),
+        })
+      )
       .required(tValidation("REQUIRED")),
     phone: Yup.string().required(tValidation("REQUIRED")),
     imageUrl: Yup.string(),
@@ -43,7 +50,8 @@ export default function NewEditForm({ onClose }: NewEditFormProps) {
     lat: Yup.number(),
     lng: Yup.number(),
     address: Yup.string(),
-    gender: Yup.string().required(),
+    gender: Yup.string().required(tValidation("REQUIRED")),
+    jobTitle: Yup.string().required(tValidation("REQUIRED")),
   });
   const defaultValues = {
     name: "",
@@ -56,6 +64,7 @@ export default function NewEditForm({ onClose }: NewEditFormProps) {
     lng: 0,
     address: "",
     gender: "MALE",
+    jobTitle: "DOCTOR",
   };
   const methods = useForm({
     resolver: yupResolver(branchesFormSchema),
@@ -221,6 +230,25 @@ export default function NewEditForm({ onClose }: NewEditFormProps) {
                   placeholder={t("BRANCHES_MANAGEMENT_PAGE.FORM.ADDRESS")}
                   loading={locationUpdating}
                   disabled={locationUpdating}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="font-semibold">
+                  {t("USER_MANAGEMENT_PAGE.POSITION")}
+                </p>
+                <RHFAutocomplete
+                  name="jobTitle"
+                  options={EMP_POSITIONS}
+                  inputProps={{
+                    placeholder: t("USER_MANAGEMENT_PAGE.POSITION"),
+                  }}
+                  api={{
+                    getOptionLabel: (option) =>
+                      t(`USER_MANAGEMENT_PAGE.${option}`) ?? "",
+                  }}
+                  onChange={(value) => {
+                    setValue("jobTitle", value ?? "");
+                  }}
                 />
               </div>
             </div>

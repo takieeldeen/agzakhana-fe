@@ -1,4 +1,5 @@
 "use client";
+import { useMutateBranches } from "@/api/branches";
 import { useConfirmDialog } from "@/components/confirmation-dialog/confirmation-dialog-provider";
 import {
   Popover,
@@ -10,7 +11,6 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { BranchType } from "@/types/branches";
 import { BRANCH_STATUS } from "@/utilis/CONSTANTS";
-import { formatDistances } from "@/utilis/numbers";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
@@ -23,66 +23,39 @@ interface TableRowProps {
 export default function BranchesTableRow({ row }: TableRowProps) {
   //   Custom Hooks //////////////////////////
   const { locale } = useParams();
-  const t = useTranslations("BRANCHES_MANAGEMENT_PAGE");
+  const t = useTranslations("");
   const { confirmDialog } = useConfirmDialog();
-  const openingHourDate = row?.openingHour
-    ? `3/15/2025, ${row?.openingHour?.split(" ")?.[0]}:00 ${
-        row?.openingHour?.split(" ")?.[1]
-      }`
-    : undefined;
-  const closingHourDate = row?.closingHour
-    ? `3/15/2025, ${row?.closingHour?.split(" ")?.[0]}:00 ${
-        row?.closingHour?.split(" ")?.[1]
-      }`
-    : undefined;
-  console.log(closingHourDate);
+  const { deleteBranch } = useMutateBranches();
   //   Helper Constants /////////////////////
   //   Callbacks /////////////////////
   const handleDeleteProduct = useCallback(() => {
     confirmDialog(
       "تأكيد الحذف",
       "هل أنت متأكد انك تريد حذف جميع الكمية , في حالة حذف الكمية لن يمكن استرجاعها مرة اخرى.",
-      "ALERT"
+      "ALERT",
+      async () => {
+        await deleteBranch(row);
+      }
     );
-  }, [confirmDialog]);
+  }, [confirmDialog, deleteBranch, row]);
   return (
     <TableRow
-      key={row?.id}
+      key={row?._id}
       className=" text-base dark:bg-table-row-bg dark:border-b-7 dark:border-[rgb(20,28,31)] dark:border-t-7 h-24"
     >
-      {/* <TableCell className="">
-        <div className="flex items-center justify-center">
-          {row?.imageUrl && (
-            <Image
-              src={row?.imageUrl}
-              alt={row?.nameEn}
-              className="h-12 w-auto"
-              height="128"
-              width="128"
-              loading="lazy"
-            />
-          )}
-          {!row?.imageUrl && (
-            <Icon
-              icon="lets-icons:img-box-light"
-              className="text-4xl text-neon"
-            />
-          )}
-        </div>
-      </TableCell> */}
       <TableCell className="font-medium max-w-64  truncate text-center">
-        {row?.branchCode}
+        {row?._id}
       </TableCell>
       <TableCell className="font-medium max-w-64  truncate text-center">
         {row?.name}
       </TableCell>
-      <TableCell className="font-medium  text-center">
-        {formatDistances(row?.distance, locale as "ar" | "en")}
+
+      <TableCell className="text-center ">
+        {row?.managerName ?? t("COMMON.UNSPECIFIED")}
       </TableCell>
-      <TableCell className="text-center ">{row?.managerName}</TableCell>
       <TableCell className="text-center">
-        {openingHourDate
-          ? new Date(openingHourDate)?.toLocaleTimeString(
+        {row?.openingHour
+          ? new Date(row?.openingHour)?.toLocaleTimeString(
               locale === "ar" ? "ar-EG" : "en-US",
               {
                 hour: "2-digit",
@@ -92,8 +65,8 @@ export default function BranchesTableRow({ row }: TableRowProps) {
           : "--"}
       </TableCell>
       <TableCell className="text-center ">
-        {closingHourDate
-          ? new Date(closingHourDate)?.toLocaleTimeString(
+        {row?.closingHour
+          ? new Date(row?.closingHour)?.toLocaleTimeString(
               locale === "ar" ? "ar-EG" : "en-US",
               {
                 hour: "2-digit",
@@ -123,7 +96,7 @@ export default function BranchesTableRow({ row }: TableRowProps) {
       <TableCell className={cn("text-center w-36")}>
         <Popover>
           <PopoverTrigger className="cursor-pointer bg-transparent border-[1px] border-blue-700 dark:border-[#00Df72] dark:text-[#00Df72] text-blue-700 transition-all hover:bg-blue-700 dark:hover:bg-[#00Df72] hover:text-white rounded-full py-1.5 font-bold flex flex-row gap-0.5 items-center px-2 mx-auto text-sm dark:hover:text-[#192227] ">
-            {t("ACTION")}
+            {t("BRANCHES_MANAGEMENT_PAGE.ACTION")}
             <Icon
               icon="tabler:chevron-up"
               style={{ transform: "rotate(180deg)" }}
@@ -139,9 +112,9 @@ export default function BranchesTableRow({ row }: TableRowProps) {
                   <Icon icon="hugeicons:eye" style={{ fontSize: "30px" }} />
                 </div>
                 <div>
-                  <p>{t("DETAILS_TITLE")}</p>
+                  <p>{t("BRANCHES_MANAGEMENT_PAGE.DETAILS_TITLE")}</p>
                   <p className="text-sm text-gray-400">
-                    {t("DETAILS_SUBTITLE")}
+                    {t("BRANCHES_MANAGEMENT_PAGE.DETAILS_SUBTITLE")}
                   </p>
                 </div>
               </li>
@@ -154,8 +127,10 @@ export default function BranchesTableRow({ row }: TableRowProps) {
                   />
                 </div>
                 <div>
-                  <p>{t("STAFF_TITLE")}</p>
-                  <p className="text-sm text-gray-400">{t("STAFF_SUBTITLE")}</p>
+                  <p>{t("BRANCHES_MANAGEMENT_PAGE.STAFF_TITLE")}</p>
+                  <p className="text-sm text-gray-400">
+                    {t("BRANCHES_MANAGEMENT_PAGE.STAFF_SUBTITLE")}
+                  </p>
                 </div>
               </li>
               <Separator className="bg-table-row-bg" />
@@ -168,9 +143,9 @@ export default function BranchesTableRow({ row }: TableRowProps) {
                   />
                 </div>
                 <div>
-                  <p>{t("ACTIVATION_TITLE")}</p>
+                  <p>{t("BRANCHES_MANAGEMENT_PAGE.ACTIVATION_TITLE")}</p>
                   <p className="text-sm text-gray-400">
-                    {t("ACTIVATION_SUBTITLE")}
+                    {t("BRANCHES_MANAGEMENT_PAGE.ACTIVATION_SUBTITLE")}
                   </p>
                 </div>
               </li>
@@ -182,9 +157,9 @@ export default function BranchesTableRow({ row }: TableRowProps) {
                   <Icon icon="prime:trash" style={{ fontSize: "30px" }} />
                 </div>
                 <div>
-                  <p>{t("DELETE_TITLE")}</p>
+                  <p>{t("BRANCHES_MANAGEMENT_PAGE.DELETE_TITLE")}</p>
                   <p className="text-sm text-gray-400">
-                    {t("DELETE_SUBTITLE")}
+                    {t("BRANCHES_MANAGEMENT_PAGE.DELETE_SUBTITLE")}
                   </p>
                 </div>
               </li>

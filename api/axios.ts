@@ -3,7 +3,6 @@ import Axios, { AxiosRequestConfig } from "axios";
 const axios = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
-
 axios.interceptors.response.use(
   (res: any) => res,
   (error: any) => Promise.reject(error?.response?.data?.error)

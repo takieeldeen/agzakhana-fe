@@ -1,5 +1,5 @@
 "use client";
-import { useDeleteEmployee } from "@/api/employees";
+import { useDeleteEmployee, useToggleEmployeeStatus } from "@/api/employees";
 import { useConfirmDialog } from "@/components/confirmation-dialog/confirmation-dialog-provider";
 import {
   Popover,
@@ -14,7 +14,9 @@ import { USER_STATUS } from "@/utilis/CONSTANTS";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { toast } from "sonner";
 
 interface TableRowProps {
   row: Employee;
@@ -25,6 +27,8 @@ export default function EmployeeTableRow({ row }: TableRowProps) {
   const t = useTranslations("USER_MANAGEMENT_PAGE");
   const { confirmDialog } = useConfirmDialog();
   const { deleteEmployee } = useDeleteEmployee();
+  const { toggleEmployeeStatus } = useToggleEmployeeStatus();
+  const router = useRouter();
   //   Helper Constants /////////////////////
   //   Callbacks /////////////////////
   const handleDeleteProduct = useCallback(() => {
@@ -32,9 +36,27 @@ export default function EmployeeTableRow({ row }: TableRowProps) {
       t("DELETE_CONFIRMATION_TITLE"),
       t("DELETE_CONFIRMATION_SUBTITLE"),
       "ALERT",
-      () => deleteEmployee(row?._id)
+      () =>
+        deleteEmployee(row?._id).then(() => {
+          toast("Successfully Deleted");
+        })
     );
   }, [confirmDialog, deleteEmployee, row?._id, t]);
+  const handleStatusChange = useCallback(() => {
+    confirmDialog(
+      row?.status === "ACTIVE"
+        ? t("DEACTIVATION_CONFIRMATION_TITLE")
+        : t("ACTIVATION_CONFIRMATION_TITLE"),
+      row?.status === "ACTIVE"
+        ? t("DEACTIVATION_CONFIRMATION_SUBTITLE")
+        : t("ACTIVATION_CONFIRMATION_SUBTITLE"),
+      "WARNING",
+      () =>
+        toggleEmployeeStatus(row).then(() => {
+          toast("Successfully Deleted");
+        })
+    );
+  }, [confirmDialog, row, t, toggleEmployeeStatus]);
   return (
     <TableRow
       key={row?._id}
@@ -62,6 +84,9 @@ export default function EmployeeTableRow({ row }: TableRowProps) {
       </TableCell>
       <TableCell className="font-medium max-w-64  truncate text-center">
         {row?.name}
+      </TableCell>
+      <TableCell className="font-medium max-w-64  truncate text-center">
+        {row?.jobTitle ? t(row.jobTitle) : "--"}
       </TableCell>
       <TableCell className="font-medium max-w-64  truncate text-center">
         {row?._id?.substring(20)}
@@ -102,6 +127,10 @@ export default function EmployeeTableRow({ row }: TableRowProps) {
             <ul className="flex flex-col gap-1">
               <li
                 // onClick={handleDeleteProduct}
+
+                onClick={() => {
+                  router.push(`employees/${row?._id}`);
+                }}
                 className="flex flex-row gap-3 items-start hover:bg-menu-item-hover py-3 px-6 transition-all cursor-pointer"
               >
                 <div className="border-neon border-[1px] rounded-md p-2 text-neon">
@@ -129,7 +158,10 @@ export default function EmployeeTableRow({ row }: TableRowProps) {
               </li>
               <Separator className="bg-table-row-bg" />
 
-              <li className="flex flex-row gap-3 items-start hover:bg-menu-item-hover py-3 px-6 transition-all cursor-pointer">
+              <li
+                className="flex flex-row gap-3 items-start hover:bg-menu-item-hover py-3 px-6 transition-all cursor-pointer"
+                onClick={handleStatusChange}
+              >
                 <div className="border-neon border-[1px] rounded-md p-2 text-neon">
                   <Icon
                     icon="solar:pause-outline"
